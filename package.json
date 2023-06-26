@@ -46,7 +46,8 @@
     "screenfull": "^3.3.2",
     "ti-icons": "^0.1.2",
     "tslib": "^1.10.0",
-    "zone.js": "~0.9.1"
+    "zone.js": "~0.9.1",
+    "@babel/compat-data": "^7.9.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "~0.803.0",

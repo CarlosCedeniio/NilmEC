@@ -152,7 +152,7 @@ export class DashboardDefaultComponent implements OnInit {
       valueAxes: [
         {
           id: 'v1',
-          title: 'Consumo',
+          title: 'Consumo por dispositivo',
           position: 'left',
           autoGridCount: false,
           labelFunction: function (g) {
@@ -161,12 +161,15 @@ export class DashboardDefaultComponent implements OnInit {
         },
         {
           id: 'v2',
-          title: '',
+          title: 'Consumo total',
           gridAlpha: 0,
-          fontSize: 0,
+          fontSize: 10,
           axesAlpha: 0,
-          position: 'left',
-          autoGridCount: false
+          position: 'right',
+          autoGridCount: false,
+          labelFunction: function (g) {
+            return Math.round(g);
+          }
         }
       ],
       graphs:
@@ -178,8 +181,8 @@ export class DashboardDefaultComponent implements OnInit {
             fillColors: '#4680ff',
             fillAlphas: 1,
             type: 'column',
-            title: 'Refrigerador',
-            valueField: 'sales1',
+            title: 'AC',
+            valueField: 'AC',
             clustered: true,
             columnWidth: 0.4,
             legendValueText: '[[value]] Kw',
@@ -193,7 +196,7 @@ export class DashboardDefaultComponent implements OnInit {
             fillAlphas: 1,
             type: 'column',
             title: 'Luces',
-            valueField: 'sales2',
+            valueField: 'Lights',
             clustered: true,
             columnWidth: 0.4,
             legendValueText: '[[value]] Kw',
@@ -207,7 +210,7 @@ export class DashboardDefaultComponent implements OnInit {
             fillAlphas: 1,
             type: 'column',
             title: 'Otros',
-            valueField: 'market2',
+            valueField: 'Others',
             clustered: true,
             columnWidth: 0.4,
             legendValueText: '[[value]] Kw',
@@ -227,7 +230,7 @@ export class DashboardDefaultComponent implements OnInit {
             type: 'smoothedLine',
             title: 'Consumo total',
             useLineColorForBulletBorder: true,
-            valueField: 'market1',
+            valueField: 'TotalConsumption',
             balloonText: '[[title]]<br /><b style="font-size: 130% ">[[value]]</b>'
           },
         ],
@@ -259,53 +262,53 @@ export class DashboardDefaultComponent implements OnInit {
       },
       dataProvider: [
         {
-          date: '2013-01-16',
-          market1: 685,
-          market2: 145,
-          sales1: 125,
-          sales2: 40
+          date: '2023-01-16',
+          TotalConsumption: 310,
+          Others: 145,
+          AC: 125,
+          Lights: 40
         },
         {
-          date: '2013-01-17',
-          market1: 700,
-          market2: 136,
-          sales1: 125,
-          sales2: 40
+          date: '2023-01-17',
+          TotalConsumption: 301,
+          Others: 136,
+          AC: 125,
+          Lights: 40
         },
         {
-          date: '2013-01-18',
-          market1: 540,
-          market2: 154,
-          sales1: 125,
-          sales2: 40
+          date: '2023-01-18',
+          TotalConsumption: 319,
+          Others: 154,
+          AC: 125,
+          Lights: 40
         },
         {
-          date: '2013-01-19',
-          market1: 620,
-          market2: 185,
-          sales1: 125,
-          sales2: 40
+          date: '2023-01-19',
+          TotalConsumption: 350,
+          Others: 185,
+          AC: 125,
+          Lights: 40
         },
         {
-          date: '2013-01-20',
-          market1: 800,
-          market2: 144,
-          sales1: 146,
-          sales2: 40
+          date: '2023-01-20',
+          TotalConsumption: 330,
+          Others: 144,
+          AC: 146,
+          Lights: 40
         },
         {
-          date: '2013-01-21',
-          market1: 766,
-          market2: 200,
-          sales1: 140,
-          sales2: 40
+          date: '2023-01-21',
+          TotalConsumption: 380,
+          Others: 200,
+          AC: 140,
+          Lights: 40
         },
         {
-          date: '2013-01-22',
-          market1: 900,
-          market2: 138,
-          sales1: 200,
-          sales2: 60
+          date: '2023-01-22',
+          TotalConsumption: 398,
+          Others: 138,
+          AC: 200,
+          Lights: 60
         }
       ]
     });
