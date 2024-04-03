@@ -10,6 +10,7 @@ import '../../../../assets/charts/amchart/worldLow.js';
 import * as moment from 'moment';
 import {ToastrService} from 'ngx-toastr';
 import { ElectricDataService } from './../../../services/electric-data.service';
+import { NgxSpinnerService } from 'ngx-spinner';
 
 declare const AmCharts: any;
 declare const $: any;
@@ -35,9 +36,9 @@ export class DashboardDefaultComponent implements OnInit {
   totalValueGraphData1 = buildChartJS('#fff', [45, 25, 35, 20, 45, 20, 40, 10, 30, 45], '#3a73f1', 'transparent');
   totalValueGraphData2 = buildChartJS('#fff', [10, 25, 35, 20, 10, 20, 15, 45, 15, 10], '#e55571', 'transparent');
   totalValueGraphOption = buildChartOption();
-  actualComsumption = 400.24;
+  actualComsumption = 0;
   current = 14;
-  updateTime = moment().format('dddd hh:mm:ss');
+  updateTime = moment().format('dddd HH:mm:ss');
   data = [];
 
   counter = 9;
@@ -47,65 +48,152 @@ export class DashboardDefaultComponent implements OnInit {
   toastFlag = true;
 
   constructor(private toastr: ToastrService,
-              private electricData: ElectricDataService) { }
+              private electricData: ElectricDataService,
+              private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
+    this.spinner.show();
 
-    ;
+    this.realTimeConsumptionGraph();
+    setInterval(() => {
+      this.realTimeConsumptionGraph();
+    }, 60000);
+
+    this.instantConsumptionStat();
+    setInterval(() => {
+      this.instantConsumptionStat();
+    }, 20000);
 
 
+  }
 
-    this.electricData.getAllPosts().subscribe({
+  showSuccess() {
+    this.toastFlag = false;
+    this.toastr.warning('Has superado el limite de consumo para el gasto de hoy', 'Alerta de consumo', {timeOut: 20000} );
+  }
+
+
+  realTimeConsumptionGraph(){
+    this.electricData.getGroupOf().subscribe({
       next: (edata) => {
+        this.spinner.hide();
         console.log(edata);
-        let temp =  edata.map((item) => ({...item, sensedAt: AmCharts.formatDate(new Date(item.sensedAt), "YYYY-MM-DD HH:NN")}));
-        //this.potencia = temp.filter((item) => { return item.type === 'energia_A'; });
-        this.data = temp;
-        console.log(this.potencia);
-        const chart = AmCharts.makeChart('statistics-chart', {
-          hideCredits: true,
-          type: 'serial',
-          categoryField: 'sensedAt',
-          marginTop: 5,
-          marginBottom: 5,
-          //dataDateFormat: "YYYY-MM-DD",
-          marginRight: 0,
-          dataProvider: this.data,
-          dataDateFormat: "YYYY-MM-DD HH:NN",
-          zoomOutText: '',
-          categoryAxis: {
-            minPeriod: "hh",
-            parseDates: true
-          },
-          valueAxes: [{
-            axisAlpha: 0,
-            dashLength: 6,
-            gridAlpha: 0.1,
-            position: 'left'
-          }],
-          graphs: [{
-            id: 'g1',
-            bullet: 'round',
-            bulletSize: 9,
-            lineColor: '#4680ff',
-            lineThickness: 2,
-            negativeLineColor: '#4680ff',
-            type: 'smoothedLine',
-            valueField: 'data'
-          }],
-          chartCursor: {
-            cursorAlpha: 0,
-            valueLineEnabled: false,
-            valueLineBalloonEnabled: true,
-            valueLineAlpha: false,
-            color: '#fff',
-            cursorColor: '#FC6180',
-            fullWidth: true
-          },
-          'export': {
-            enabled: true
+        let temp =  edata.map((item) => ({...item, sensedAt: moment(new Date(item.sensedAt)).format('DD-MM-YYYY HH:mm:ss')}));
+        let temp2 =  temp.map((item) => {
+          if (item.type=="potencia_A"){
+            return ({...item, value_A: item["data"]})
+          }
+          if (item.type=="potencia_B"){
+            return ({...item, value_B: item["data"]})
+          }
+          if (item.type=="potencia_C"){
+            return ({...item, value_C: item["data"]})
           }
         });
+        this.data = temp2;
+        const chart = AmCharts.makeChart('statistics-chart',
+        {
+          "hideCredits": true,
+          "type": "serial",
+          "theme": "none",
+          "legend": {
+            "useGraphSettings": true
+        },
+        "synchronizeGrid":true,
+          "marginRight": 20,
+          "marginLeft": 20,
+          "marginTop": 0,
+          "autoMarginOffset": 20,
+          "mouseWheelZoomEnabled":true,
+          "dataDateFormat": "DD-MM-YYYY HH:NN:SS",
+          "valueAxes": [{
+            "id":"v1",
+            "axisColor": "#FF6600",
+            "axisThickness": 2,
+            "axisAlpha": 1,
+            "position": "left"
+          },
+          ],
+          "graphs": [{
+              "id": "g1",
+              "bullet": "round",
+              "bulletBorderAlpha": 1,
+              "bulletColor": "#4680ff",
+              "bulletSize": 5,
+              "hideBulletsCount": 50,
+              "lineThickness": 3,
+              "title": "Fase A",
+              "lineColor": "#4680ff",
+              "valueField": "value_A",
+              "balloonText": "[[value_A]] W"
+          },
+          {
+            "id": "g2",
+            "bullet": "round",
+            "bulletBorderAlpha": 1,
+            "bulletColor": "#ffb64d",
+            "bulletSize": 5,
+            "hideBulletsCount": 50,
+            "lineThickness": 3,
+            "title": "Fase B",
+            "lineColor": "#ffb64d",
+            "valueField": "value_B",
+            "balloonText": "[[value_B]]>"
+        },
+        {
+          "id": "g3",
+          "bullet": "round",
+          "bulletBorderAlpha": 1,
+          "bulletColor": "#4680ff",
+          "bulletSize": 5,
+          "hideBulletsCount": 50,
+          "lineThickness": 3,
+          "title": "Fase C",
+          "lineColor": "#fc6180",
+          "valueField": "value_C",
+          "balloonText": "[[value_C]] W"
+      }],
+          "chartScrollbar": {
+              "oppositeAxis":false,
+              "offset":30,
+              "scrollbarHeight": 40,
+              "backgroundAlpha": 0,
+              "selectedBackgroundAlpha": 0.1,
+              "selectedBackgroundColor": "#888888",
+              "graphFillAlpha": 0,
+              "graphLineAlpha": 0.5,
+              "selectedGraphFillAlpha": 0,
+              "selectedGraphLineAlpha": 1,
+              "autoGridCount":true,
+              "color":"#AAAAAA"
+          },
+          "chartCursor": {
+              "pan": false,
+              "valueLineEnabled": true,
+              "valueLineBalloonEnabled": true,
+              "cursorAlpha":1,
+              "cursorColor":"#258cbb",
+              "valueLineAlpha":0.2,
+              "valueZoomable":true,
+              "categoryBalloonDateFormat": "DD-MM-YYYY HH:NN:SS",
+          },
+          "categoryField": "sensedAt",
+          "categoryAxis": {
+              "parseDates": true,
+              "dashLength": 1,
+              "minPeriod": "10ss",
+              "minorGridEnabled": false,
+          },
+          "export": {
+              "enabled": true,
+              "position": "bottom-right"
+          },
+          "dataProvider": this.data
+      }
+        );
+        //chart.zoomToIndexes(chart.dataProvider.length - (moment().hour() * 800), chart.dataProvider.length);
+        chart.zoomToIndexes(1000, 2000);
+
 
         AmCharts.makeChart('solid-gauge1', {
           type: 'gauge',
@@ -325,24 +413,32 @@ export class DashboardDefaultComponent implements OnInit {
           if (this.actualComsumption>450 && this.toastFlag){
             this.showSuccess();
           }
-
-
-
         }, 5000); */
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+        this.spinner.hide();
+      },
+    });
+  }
+
+  instantConsumptionStat(){
+    let totalComsumption = 0;
+
+    this.electricData.getAllInstantConsumption().subscribe({
+      next: (edata) => {
+        edata.forEach(data => {
+          totalComsumption+=data.data
+        });
+        this.updateTime = moment(edata[0].sensedAt).add(-5,'h').format('dddd HH:mm:ss');
+        this.actualComsumption = totalComsumption;
+
       },
       error: (error) => {
         console.error('There was an error!', error);
       },
     });
-
   }
-
-  showSuccess() {
-    this.toastFlag = false;
-    this.toastr.warning('Has superado el limite de consumo para el gasto de hoy', 'Alerta de consumo', {timeOut: 20000} );
-  }
-
-
 
 
 

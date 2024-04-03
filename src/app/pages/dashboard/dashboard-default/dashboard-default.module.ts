@@ -5,13 +5,15 @@ import { DashboardDefaultRoutingModule } from './dashboard-default-routing.modul
 import { DashboardDefaultComponent } from './dashboard-default.component';
 import {SharedModule} from '../../../shared/shared.module';
 import {ChartModule} from 'angular2-chartjs';
+import { NgxSpinnerModule } from "ngx-spinner";
 
 @NgModule({
   imports: [
     CommonModule,
     DashboardDefaultRoutingModule,
     SharedModule,
-    ChartModule
+    ChartModule,
+    NgxSpinnerModule
   ],
   declarations: [DashboardDefaultComponent]
 })

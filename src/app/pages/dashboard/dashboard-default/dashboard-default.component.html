@@ -68,6 +68,13 @@
 
   <!-- Statistics Start -->
   <div class="col-md-12 col-xl-8">
+    <ngx-spinner
+          [fullScreen]="false"
+          type="ball-scale-multiple"
+          size="medium"
+        >
+          <p class="loading">Loading Awesomeness...</p>
+    </ngx-spinner>
     <app-card [title]="'Consumo tiempo real'" [classHeader]="true">
 <!--      <span class="code-header"><span class="text-muted">Get 15% Off on <a href="https://www.amcharts.com/" target="_blank">amCharts</a> licences. Use code "codedthemes" and get the discount.</span></span>-->
       <div id="line-example" class="line-example">
