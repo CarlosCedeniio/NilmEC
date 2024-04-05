@@ -39,10 +39,11 @@ export class DashboardDefaultComponent implements OnInit {
   actualComsumption = 0;
   current = 14;
   updateTime = moment().format('dddd HH:mm:ss');
+  updateTimeBill = moment().format('dddd HH:mm:ss');
   data = [];
 
   counter = 9;
-  todaySpent = 3;
+  todaySpent = 'Calculando';
   foundDevices = 3;
   startDay = moment().add('days', -1).endOf('day').format('dddd hh:mm:ss');
   toastFlag = true;
@@ -52,7 +53,13 @@ export class DashboardDefaultComponent implements OnInit {
               private spinner: NgxSpinnerService) { }
 
   ngOnInit() {
-    this.spinner.show();
+
+    this.spinner.show('compiledPower')
+
+    this.getActuallBill();
+    setInterval(() => {
+      this.getActuallBill();
+    }, 60000*5);
 
     this.realTimeConsumptionGraph();
     setInterval(() => {
@@ -76,8 +83,7 @@ export class DashboardDefaultComponent implements OnInit {
   realTimeConsumptionGraph(){
     this.electricData.getGroupOf().subscribe({
       next: (edata) => {
-        this.spinner.hide();
-        console.log(edata);
+        this.spinner.hide('compiledPower')
         let temp =  edata.map((item) => ({...item, sensedAt: moment(new Date(item.sensedAt)).format('DD-MM-YYYY HH:mm:ss')}));
         let temp2 =  temp.map((item) => {
           if (item.type=="potencia_A"){
@@ -417,12 +423,41 @@ export class DashboardDefaultComponent implements OnInit {
       },
       error: (error) => {
         console.error('There was an error!', error);
-        this.spinner.hide();
       },
     });
   }
 
   instantConsumptionStat(){
+    let totalComsumption = 0;
+
+    this.electricData.getAllInstantConsumption().subscribe({
+      next: (edata) => {
+        edata.forEach(data => {
+          totalComsumption+=data.data
+        });
+        this.updateTime = moment(edata[0].sensedAt).add(-5,'h').format('dddd HH:mm:ss');
+        this.actualComsumption = totalComsumption;
+
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
+  }
+
+  getActuallBill(){
+    this.electricData.getActualBill().subscribe({
+      next: (data:any) => {
+        this.todaySpent = data.total;
+        this.updateTimeBill = moment().format('dddd HH:mm:ss');
+      },
+      error: (error) => {
+        console.error('There was an error!', error);
+      },
+    });
+  }
+
+  getForecastedBill(){
     let totalComsumption = 0;
 
     this.electricData.getAllInstantConsumption().subscribe({

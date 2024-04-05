@@ -3,28 +3,29 @@
   <div class="col-md-6 col-xl-3">
     <div class="card widget-card-1">
       <div class="card-block-small">
+        <ngx-spinner name="instantConsumption" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
         <i class="icofont icofont-pie-chart bg-c-blue card1-icon"></i>
         <span class="text-c-blue f-w-600">Consumo actual</span>
         <h4>{{actualComsumption | number: '1.2-2'}} Kw</h4>
         <div>
         <span class="f-left m-t-10 text-muted">
-          <i class="text-c-blue f-16 icofont icofont-clock-time m-r-10"></i>Última actualización: {{updateTime}}
+          <i class="text-c-blue f-16 icofont icofont-refresh m-r-10"></i>{{updateTime}}
         </span>
         </div>
       </div>
     </div>
   </div>
-  <!-- card1 end -->
-  <!-- card2 start -->
+
   <div class="col-md-6 col-xl-3">
     <div class="card widget-card-1">
       <div class="card-block-small">
+        <ngx-spinner name="actualBill" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
         <i class="icofont icofont-ui-home bg-c-pink card1-icon"></i>
         <span class="text-c-pink f-w-600">Gasto hoy</span>
         <h4>${{todaySpent | number: '1.2-2'}}</h4>
         <div>
           <span class="f-left m-t-10 text-muted">
-            <i class="text-c-pink f-16 icofont icofont-money m-r-10"></i>Última actualización: {{updateTime}}
+            <i class="text-c-pink f-16 icofont icofont-refresh m-r-10"></i>{{updateTimeBill}}
           </span>
         </div>
       </div>
@@ -35,6 +36,7 @@
   <div class="col-md-6 col-xl-3">
     <div class="card widget-card-1">
       <div class="card-block-small">
+        <ngx-spinner name="forecastedBill" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
         <i class="icofont icofont-ui-home bg-c-yellow card1-icon"></i>
         <span class="text-c-yellow f-w-600">Gasto mensual proyectado</span>
         <h4>${{todaySpent + 30 | number: '1.2-2'}}</h4>
@@ -68,13 +70,7 @@
 
   <!-- Statistics Start -->
   <div class="col-md-12 col-xl-8">
-    <ngx-spinner
-          [fullScreen]="false"
-          type="ball-scale-multiple"
-          size="medium"
-        >
-          <p class="loading">Loading Awesomeness...</p>
-    </ngx-spinner>
+    <ngx-spinner name="compiledPower" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
     <app-card [title]="'Consumo tiempo real'" [classHeader]="true">
 <!--      <span class="code-header"><span class="text-muted">Get 15% Off on <a href="https://www.amcharts.com/" target="_blank">amCharts</a> licences. Use code "codedthemes" and get the discount.</span></span>-->
       <div id="line-example" class="line-example">

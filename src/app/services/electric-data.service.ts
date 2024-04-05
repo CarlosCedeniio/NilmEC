@@ -23,7 +23,9 @@ export class ElectricDataService {
   alldata = '/getData';
   lastData = '/getLastData';
   groupOf = '/getDataWeb';
-  main_id = '64ad81a0dc5442c4e0796382'
+  main_id = '64ad81a0dc5442c4e0796382';
+  actualBill = 'http://200.126.14.232:4500/getConsumptionBill';
+  forecastedBill = 'http://200.126.14.232:4500/getForecast';
 
   constructor(private http: HttpClient) { }
 
@@ -34,9 +36,13 @@ export class ElectricDataService {
       case 'all':
         return this.apiUrl + this.alldata + '?id=' + sensorID + '&start=' + startDate + '&end=' + endDate;
       case 'groupOf':
-          return this.apiUrl + this.groupOf
+          return this.apiUrl + this.groupOf;
       case 'last':
-        return this.apiUrl + this.lastData
+        return this.apiUrl + this.lastData;
+      case 'actualBill':
+        return this.actualBill;
+      case 'forecastedBill':
+        return this.forecastedBill;
     }
   }
 
@@ -67,6 +73,16 @@ export class ElectricDataService {
     }
     let request = this.urlMaker('groupOf')
     return this.http.post<Value[]>(request, body);
+   }
+
+   getActualBill(): Observable<Value[]> {
+    let request = this.urlMaker('actualBill')
+    return this.http.get<Value[]>(request);
+   }
+
+   getForecastedBill(): Observable<Value[]> {
+    let request = this.urlMaker('forecastedBill')
+    return this.http.get<Value[]>(request);
    }
 
 }

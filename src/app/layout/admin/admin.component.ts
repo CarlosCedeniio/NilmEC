@@ -1,6 +1,9 @@
+import * as moment from 'moment';
 import {Component, ElementRef, OnInit, ViewChild} from '@angular/core';
 import {animate, AUTO_STYLE, state, style, transition, trigger} from '@angular/animations';
 import {MenuItems} from '../../shared/menu-items/menu-items';
+
+
 
 @Component({
   selector: 'app-admin',
@@ -96,6 +99,8 @@ export class AdminComponent implements OnInit {
   configOpenRightBar: string;
   isSidebarChecked: boolean;
   isHeaderChecked: boolean;
+
+  todayDate = moment().locale('es').format('DD MMMM yyyy');
 
   @ViewChild('searchFriends', /* TODO: add static flag */ {static: false}) search_friends: ElementRef;
 
