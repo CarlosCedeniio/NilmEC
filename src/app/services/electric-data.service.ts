@@ -24,8 +24,8 @@ export class ElectricDataService {
   lastData = '/getLastData';
   groupOf = '/getDataWeb';
   main_id = '64ad81a0dc5442c4e0796382';
-  actualBill = 'http://200.126.14.232:4500/getConsumptionBill';
-  forecastedBill = 'http://200.126.14.232:4500/getForecast';
+  actualBill = 'https://smartx.espol.edu.ec/nilmecapi/getConsumptionBill';
+  forecastedBill = 'https://smartx.espol.edu.ec/nilmecapi/getForecast';
 
   constructor(private http: HttpClient) { }
 
