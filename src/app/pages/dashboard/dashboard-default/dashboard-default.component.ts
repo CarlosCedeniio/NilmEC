@@ -459,6 +459,7 @@ export class DashboardDefaultComponent implements OnInit {
 
   getForecastedBill(){
     let totalComsumption = 0;
+    
 
     this.electricData.getAllInstantConsumption().subscribe({
       next: (edata) => {
