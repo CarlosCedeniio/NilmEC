@@ -40,10 +40,15 @@ export class DashboardDefaultComponent implements OnInit {
   current = 14;
   updateTime = moment().format('dddd HH:mm:ss');
   updateTimeBill = moment().format('dddd HH:mm:ss');
+  updateTimeForecast = moment().format('dddd HH:mm:ss');
   data = [];
 
   counter = 9;
   todaySpent = 'Calculando';
+  forecastedBill = 0;
+  forecastedBillmin = 0;
+  forecastedBillmax = 0;
+
   foundDevices = 3;
   startDay = moment().add('days', -1).endOf('day').format('dddd hh:mm:ss');
   toastFlag = true;
@@ -57,6 +62,7 @@ export class DashboardDefaultComponent implements OnInit {
     this.spinner.show('compiledPower')
 
     this.getActuallBill();
+
     setInterval(() => {
       this.getActuallBill();
     }, 60000*5);
@@ -69,6 +75,11 @@ export class DashboardDefaultComponent implements OnInit {
     this.instantConsumptionStat();
     setInterval(() => {
       this.instantConsumptionStat();
+    }, 20000);
+
+    this.getForecastedBill();
+    setInterval(() => {
+      this.getForecastedBill();
     }, 20000);
 
 
@@ -458,16 +469,13 @@ export class DashboardDefaultComponent implements OnInit {
   }
 
   getForecastedBill(){
-    let totalComsumption = 0;
-    
+    this.electricData.getForecastedBill().subscribe({
+      next: (edata:any) => {
 
-    this.electricData.getAllInstantConsumption().subscribe({
-      next: (edata) => {
-        edata.forEach(data => {
-          totalComsumption+=data.data
-        });
-        this.updateTime = moment(edata[0].sensedAt).add(-5,'h').format('dddd HH:mm:ss');
-        this.actualComsumption = totalComsumption;
+        this.forecastedBill = edata.object.total_acumulado_med;
+        this.forecastedBillmin = edata.object.total_acumulado_min;
+        this.forecastedBillmax = edata.object.total_acumulado_max;
+        this.updateTimeForecast = moment(edata.timestamp).format('dddd HH:mm:ss');
 
       },
       error: (error) => {

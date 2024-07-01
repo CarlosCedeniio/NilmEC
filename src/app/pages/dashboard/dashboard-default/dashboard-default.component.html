@@ -36,13 +36,13 @@
   <div class="col-md-6 col-xl-3">
     <div class="card widget-card-1">
       <div class="card-block-small">
-        <ngx-spinner name="forecastedBill" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
         <i class="icofont icofont-ui-home bg-c-yellow card1-icon"></i>
         <span class="text-c-yellow f-w-600">Gasto mensual proyectado</span>
-        <h4>${{todaySpent + 30 | number: '1.2-2'}}</h4>
+        <h4>${{forecastedBill | number: '1.2-2'}}</h4>
+        <h6>Min: ${{forecastedBillmin | number: '1.2-2'}} - Max: ${{forecastedBillmax | number: '1.2-2'}}</h6>
         <div>
           <span class="f-left m-t-10 text-muted">
-            <i class="text-c-yellow f-16 icofont icofont-refresh m-r-10"></i>Just update - Alerta proyección $50
+            <i class="text-c-pink f-16 icofont icofont-refresh m-r-10"></i>{{updateTimeForecast}}
           </span>
         </div>
       </div>
