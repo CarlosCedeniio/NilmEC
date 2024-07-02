@@ -65,7 +65,7 @@ export class DashboardDefaultComponent implements OnInit {
 
     setInterval(() => {
       this.getActuallBill();
-    }, 60000*5);
+    }, 60000*10);
 
     this.realTimeConsumptionGraph();
     setInterval(() => {
@@ -75,12 +75,12 @@ export class DashboardDefaultComponent implements OnInit {
     this.instantConsumptionStat();
     setInterval(() => {
       this.instantConsumptionStat();
-    }, 20000);
+    }, 50000);
 
     this.getForecastedBill();
     setInterval(() => {
       this.getForecastedBill();
-    }, 20000);
+    }, 60000*10);
 
 
   }
@@ -471,11 +471,12 @@ export class DashboardDefaultComponent implements OnInit {
   getForecastedBill(){
     this.electricData.getForecastedBill().subscribe({
       next: (edata:any) => {
-
-        this.forecastedBill = edata.object.total_acumulado_med;
-        this.forecastedBillmin = edata.object.total_acumulado_min;
-        this.forecastedBillmax = edata.object.total_acumulado_max;
+        console.log(edata)
+        this.forecastedBill = edata.forecast.total_acumulado_med;
+        this.forecastedBillmin = edata.forecast.total_acumulado_min;
+        this.forecastedBillmax = edata.forecast.total_acumulado_max;
         this.updateTimeForecast = moment(edata.timestamp).format('dddd HH:mm:ss');
+        
 
       },
       error: (error) => {
