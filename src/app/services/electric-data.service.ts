@@ -25,8 +25,8 @@ export class ElectricDataService {
   groupOf = '/getDataWeb';
   main_id = '64ad81a0dc5442c4e0796382';
   actualBill = 'https://smartx.espol.edu.ec/nilmecapi/getConsumptionBill';
-  //forecastedBill = 'https://smartx.espol.edu.ec/nilmecapi/getForecast';
-  forecastedBill = 'http://localhost:5011/getForecast';
+  forecastedBill = 'https://smartx.espol.edu.ec/nilmecapi/getForecast';
+  //forecastedBill = 'http://localhost:5011/getForecast';
   constructor(private http: HttpClient) { }
 
   urlMaker(requestType : string, sensorID: string='', startDate : string='', endDate : string='', variable: string = ''){
