@@ -26,6 +26,8 @@ export class ElectricDataService {
   main_id = '64ad81a0dc5442c4e0796382';
   actualBill = 'https://smartx.espol.edu.ec/nilmecapi/getConsumptionBill';
   forecastedBill = 'https://smartx.espol.edu.ec/nilmecapi/getForecast';
+  pastMonths = 'https://smartx.espol.edu.ec/nilmecapi/getPastMonthsBills';
+
   //forecastedBill = 'http://localhost:5011/getForecast';
   constructor(private http: HttpClient) { }
 
@@ -43,6 +45,8 @@ export class ElectricDataService {
         return this.actualBill;
       case 'forecastedBill':
         return this.forecastedBill;
+      case 'pastMonths':
+        return this.pastMonths;
     }
   }
 
@@ -57,6 +61,16 @@ export class ElectricDataService {
     let body = {
       id: this.main_id,
       tags: ['potencia_A', 'potencia_B', 'potencia_C']
+    }
+    let request = this.urlMaker('last')
+    return this.http.post<Value[]>(request, body);
+   }
+
+
+   getInstantParameters(): Observable<Value[]> {
+    let body = {
+      id: this.main_id,
+      tags: ['voltaje_A', 'voltaje_B', 'voltaje_C', 'corriente_A', 'corriente_B', 'corriente_C']
     }
     let request = this.urlMaker('last')
     return this.http.post<Value[]>(request, body);
@@ -82,6 +96,11 @@ export class ElectricDataService {
 
    getForecastedBill(): Observable<Value[]> {
     let request = this.urlMaker('forecastedBill')
+    return this.http.get<Value[]>(request);
+   }
+
+   getPastMonths(): Observable<Value[]> {
+    let request = this.urlMaker('pastMonths')
     return this.http.get<Value[]>(request);
    }
 

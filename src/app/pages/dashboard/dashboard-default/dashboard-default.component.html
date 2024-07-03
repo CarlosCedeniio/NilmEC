@@ -1,9 +1,11 @@
 <div class="row">
-  <!-- card1 start -->
+  
+  <div class="col-12 d-flex">
+
+     <!-- card1 start -->
   <div class="col-md-6 col-xl-3">
     <div class="card widget-card-1">
       <div class="card-block-small">
-        <ngx-spinner name="instantConsumption" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
         <i class="icofont icofont-pie-chart bg-c-blue card1-icon"></i>
         <span class="text-c-blue f-w-600">Consumo actual</span>
         <h4>{{actualComsumption | number: '1.2-2'}} Kw</h4>
@@ -19,7 +21,6 @@
   <div class="col-md-6 col-xl-3">
     <div class="card widget-card-1">
       <div class="card-block-small">
-        <ngx-spinner name="actualBill" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
         <i class="icofont icofont-ui-home bg-c-pink card1-icon"></i>
         <span class="text-c-pink f-w-600">Gasto actual</span>
         <h4>${{todaySpent | number: '1.2-2'}}</h4>
@@ -42,7 +43,7 @@
         <h6>Min: ${{forecastedBillmin | number: '1.2-2'}} - Max: ${{forecastedBillmax | number: '1.2-2'}}</h6>
         <div>
           <span class="f-left m-t-10 text-muted">
-            <i class="text-c-pink f-16 icofont icofont-refresh m-r-10"></i>{{updateTimeForecast}}
+            <i class="text-c-yellow f-16 icofont icofont-refresh m-r-10"></i>{{updateTimeForecast}}
           </span>
         </div>
       </div>
@@ -52,61 +53,101 @@
   <div class="col-md-6 col-xl-3">
     <div class="card widget-card-1">
       <div class="card-block-small">
-        <i class="icofont icofont-warning-alt bg-c-green card1-icon"></i>
-        <span class="text-c-green f-w-600">Dispositivos detectados</span>
-        <h4>3</h4>
-        <div>
-          <span class="f-left m-t-10 text-muted">
-            <i class="text-c-green f-16 icofont icofont-tag m-r-10"></i>Última actualización: {{startDay}}
-          </span>
-        </div>
+        <i class="icofont icofont-history bg-c-green card1-icon"></i>
+        <span class="text-c-green f-w-600">Consumos pasados</span>
+        <div id="past-bills" style="max-width:100%;height:110px;"></div>
       </div>
     </div>
   </div>
   <!-- card3 end -->
-  <!-- card4 start -->
 
-  <!-- card4 end -->
-
+  </div>
+ 
   <!-- Statistics Start -->
-  <div class="col-md-12 col-xl-8">
-    <ngx-spinner name="compiledPower" [fullScreen]="false" type="ball-clip-rotate-multiple" size="medium"></ngx-spinner>
+  <div class="col-8">
     <app-card [title]="'Consumo tiempo real'" [classHeader]="true">
-<!--      <span class="code-header"><span class="text-muted">Get 15% Off on <a href="https://www.amcharts.com/" target="_blank">amCharts</a> licences. Use code "codedthemes" and get the discount.</span></span>-->
       <div id="line-example" class="line-example">
         <div id="statistics-chart" style="height:300px;"></div>
       </div>
     </app-card>
   </div>
-  <div class="col-md-12 col-xl-4">
-    <div class="card card-blue total-card">
-      <div class="card-block">
-        <div class="text-left">
-          <h4>127.3</h4>
-          <p class="m-0">Voltaje</p>
+
+  <!-- Statistics END -->
+
+  <div class="col-4 align-self-center">
+    <div class="col-12 d-flex text-center" style="text-align-last: center;">
+      <div class="col-4 card card-blue total-card">
+        <div class="card-block">
+          <div class="text-left">
+            <h4>{{voltaje_A}}</h4>
+            <p class="m-0">Voltaje A</p>
+          </div>
         </div>
-<!--        <span class="label bg-c-blue value-badges">12%</span>-->
       </div>
-      <chart [type]="'line'" [data]="totalValueGraphData1" [options]="totalValueGraphOption" style="width: 100%; height: 100px;"></chart>
+  
+      <div class="col-4 card card-blue total-card">
+        <div class="card-block">
+          <div class="text-left">
+            <h4>{{voltaje_B}}</h4>
+            <p class="m-0">Voltaje B</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-4 card card-blue total-card">
+        <div class="card-block">
+          <div class="text-left">
+            <h4>{{voltaje_C}}</h4>
+            <p class="m-0">Voltaje C</p>
+          </div>
+        </div>
+      </div>
+    </div>
+    
+    <div class="col-12 d-flex text-center" style="text-align-last: center;">
+      <div class="col-4 card card-pink total-card">
+        <div class="card-block">
+          <div class="text-left">
+            <h4>{{corriente_A}}</h4>
+            <p class="m-0">Corriente A</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-4 card card-pink total-card">
+        <div class="card-block">
+          <div class="text-left">
+            <h4>{{corriente_B}}</h4>
+            <p class="m-0">Corriente B</p>
+          </div>
+        </div>
+      </div>
+  
+      <div class="col-4 card card-pink total-card">
+        <div class="card-block">
+          <div class="text-left">
+            <h4>{{corriente_C}}</h4>
+            <p class="m-0">Corriente C</p>
+          </div>
+        </div>
+      </div>
     </div>
 
-    <div class="card card-pink total-card">
-      <div class="card-block">
-        <div class="text-left">
-          <h4>{{current | number: '1.2-2'}} A</h4>
-          <p class="m-0">Corriente</p>
-        </div>
-<!--        <span class="label bg-c-pink value-badges">15%</span>-->
-      </div>
-      <chart [type]="'line'" [data]="totalValueGraphData2" [options]="totalValueGraphOption" style="width: 100%; height: 100px;"></chart>
-    </div>
+  </div>
 
+
+  <div class="col-8">
+    <app-card [title]="'Desagregación eléctrica'" [classHeader]="true">
+      <div id="line-example" class="line-example">
+        <div id="nilm-chart" style="height:300px;"></div>
+      </div>
+    </app-card>
   </div>
 
   <!-- Statistics End -->
 
   <!-- Statistics card start -->
-  <div class="col-md-12 col-xl-4">
+<!--   <div class="col-md-12 col-xl-4">
     <div class="card widget-statstic-card">
       <div class="card-header">
         <div class="card-header-left">
@@ -125,48 +166,9 @@
 
       </div>
     </div>
-  </div>
+  </div> -->
   <!-- Statistics card end -->
-  <!-- Statistics card start -->
-  <div class="col-md-6 col-xl-4">
-    <div class="card widget-statstic-card">
-      <div class="card-header">
-        <div class="card-header-left">
-          <h5>Desagregación</h5>
-          <p class="p-t-10 m-b-0 text-c-pink">55% from last 28 hours</p>
-        </div>
-      </div>
-      <div class="card-block">
-        <i class="icofont icofont-users-social st-icon bg-c-pink txt-lite-color"></i>
-
-        <div class="text-left">
-          <h3 class="d-inline-block">3 dispositivos</h3>
-          <i class="icofont icofont-long-arrow-down text-c-pink f-30 "></i>
-        </div>
-      </div>
-    </div>
-  </div>
-  <!-- Statistics card end -->
-  <!-- Statistics card start -->
-<!--  <div class="col-md-6 col-xl-4">-->
-<!--    <div class="card widget-statstic-card">-->
-<!--      <div class="card-header">-->
-<!--        <div class="card-header-left">-->
-<!--          <h5>New orders</h5>-->
-<!--          <p class="p-t-10 m-b-0 text-c-yellow">54% From last month</p>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--      <div class="card-block">-->
-<!--        <i class="icofont icofont-chart-line st-icon bg-c-yellow"></i>-->
-
-<!--        <div class="text-left">-->
-<!--          <h3 class="d-inline-block">5,456</h3>-->
-<!--          <i class="icofont icofont-long-arrow-up text-c-green f-30 "></i>-->
-<!--        </div>-->
-<!--      </div>-->
-<!--    </div>-->
-<!--  </div>-->
-  <!-- Statistics card end -->
+  
 
   <!-- email Sent Start -->
   <div class="col-md-12">
