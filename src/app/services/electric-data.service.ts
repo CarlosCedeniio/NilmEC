@@ -27,6 +27,7 @@ export class ElectricDataService {
   actualBill = 'https://smartx.espol.edu.ec/nilmecapi/getConsumptionBill';
   forecastedBill = 'https://smartx.espol.edu.ec/nilmecapi/getForecast';
   pastMonths = 'https://smartx.espol.edu.ec/nilmecapi/getPastMonthsBills';
+  nilm = 'http://localhost:5050/';
 
   //forecastedBill = 'http://localhost:5011/getForecast';
   constructor(private http: HttpClient) { }
@@ -47,6 +48,8 @@ export class ElectricDataService {
         return this.forecastedBill;
       case 'pastMonths':
         return this.pastMonths;
+      case 'nilm':
+        return this.nilm;
     }
   }
 
@@ -63,6 +66,15 @@ export class ElectricDataService {
       tags: ['potencia_A', 'potencia_B', 'potencia_C']
     }
     let request = this.urlMaker('last')
+    return this.http.post<Value[]>(request, body);
+   }
+
+   getNilm(start, end): Observable<Value[]> {
+    let body = {
+      fecha_inicio: start,
+      fecha_fin: end
+    }
+    let request = this.urlMaker('nilm')
     return this.http.post<Value[]>(request, body);
    }
 

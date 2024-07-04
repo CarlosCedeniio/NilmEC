@@ -13,7 +13,7 @@
   "private": true,
   "dependencies": {
     "@agm/core": "^1.0.0-beta.2",
-    "@angular/animations": "^8.2.3",
+    "@angular/animations": "^8.2.14",
     "@angular/common": "^8.2.3",
     "@angular/compiler": "^8.2.3",
     "@angular/core": "^8.2.3",
@@ -43,6 +43,8 @@
     "ngx-perfect-scrollbar": "^5.3.5",
     "ngx-spinner": "^8.0.2",
     "ngx-toastr": "^11.3.3",
+    "primeicons": "^1.0.0",
+    "primeng": "^8.0.0",
     "rxjs": "^6.5.2",
     "rxjs-compat": "^6.0.0-rc.0",
     "screenfull": "^3.3.2",

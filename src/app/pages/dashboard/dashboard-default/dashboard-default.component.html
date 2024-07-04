@@ -138,10 +138,22 @@
 
   <div class="col-8">
     <app-card [title]="'Desagregación eléctrica'" [classHeader]="true">
-      <div id="line-example" class="line-example">
-        <div id="nilm-chart" style="height:300px;"></div>
+      <div class="d-flex text-center" style="flex-direction: column;">
+        <div class="w-100"> 
+          <p-calendar [(ngModel)]="nilmValues"  [showIcon]="true" ></p-calendar>
+          <p-button label="Calcular" (onClick)="nilmGraph()"></p-button>
+        </div>
+        
+        <p-chart type="line" [data]="testNilm" (onDataSelect)="selectData($event)"></p-chart>
+
       </div>
+      
     </app-card>
+  </div>
+  <div class="col-4">
+    <div class="card flex justify-content-center">
+      <p-chart type="pie" [data]="pieNilm"></p-chart>
+  </div>
   </div>
 
   <!-- Statistics End -->
