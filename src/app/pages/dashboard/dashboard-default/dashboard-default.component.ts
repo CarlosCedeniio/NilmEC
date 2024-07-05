@@ -541,7 +541,7 @@ export class DashboardDefaultComponent implements OnInit {
       next: (edata:any) => {
         console.log(edata)
         let data = edata.graph
-        
+        let stats = edata.stats
         const n = data['air conditioner'].length;
 
         // Crear un array con números del 1 al n
@@ -576,10 +576,20 @@ export class DashboardDefaultComponent implements OnInit {
       }
 
       this.pieNilm = {
-        labels: ['A', 'B', 'C'],
+        labels: ['Air Conditioner', 'Desktop computer', 'Projector'],
         datasets: [
             {
-                data: [300, 50, 100],
+                data: [stats['air'], stats['desktop'], stats['projector']],
+                backgroundColor: [
+                  "#ce8699",
+                  "#b0f1d5",
+                  "#11c0c0"
+              ],
+              hoverBackgroundColor: [
+                "#ce8699",
+                "#b0f1d5",
+                "#11c0c0"
+            ]
             }
         ]
     };
